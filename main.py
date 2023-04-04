@@ -1,6 +1,22 @@
 import pygame as pg
 import sys
 
+def ball_animation():
+
+    global ball_speed_x, ball_speed_y
+
+    #movement + collisions
+    ball.x += ball_speed_x
+    ball.y += ball_speed_y
+
+    if ball.top <= 0 or ball.bottom >= HEIGHT:
+        ball_speed_y *= -1
+    if ball.left <= 0 or ball.right >= WIDTH:
+        ball_speed_x *= -1
+
+    if ball.colliderect(player) or ball.colliderect(opponent):
+        ball_speed_x *= -1
+
 #initial setup
 pg.init()
 clock = pg.time.Clock()
@@ -20,6 +36,10 @@ opponent = pg.Rect(10, HEIGHT/2 - 70, 10, 140)
 bg_colour = (0, 0, 0)
 light_grey = (200, 200, 200)
 
+#speeeeeeeeeeeeeeeed
+ball_speed_x = 3
+ball_speed_y = 3
+
 #main loop; runs once per tick
 while True:
 
@@ -28,6 +48,8 @@ while True:
         if event.type == pg.QUIT:
             pg.quit()
             sys.exit()
+
+    ball_animation()
 
     #visuals
     screen.fill(bg_colour)
@@ -38,4 +60,4 @@ while True:
 
     #update
     pg.display.flip()
-    clock.tick(60) #max frames / second
+    clock.tick(144) #max frames / second
